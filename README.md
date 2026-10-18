@@ -1,5 +1,7 @@
 # Bludit Wizard
 
+<img width="992" height="397" alt="bluditwizard" src="https://github.com/user-attachments/assets/34077fb9-1946-483b-a221-026ae8e0c701" />
+
 **AI-assisted writing, editing, SEO analysis, and content management for Bludit CMS — twelve guided tasks with human-reviewed changes.**
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-blue.svg)](LICENSE)
