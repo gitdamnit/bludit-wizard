@@ -279,7 +279,8 @@ only** (SPDX: `GPL-3.0-only`). See [LICENSE](LICENSE).
 
 Copyright © 2026 Evan Zellner ([@gitdamnit](https://github.com/gitdamnit)).
 
-Bludit itself is a separate project with its own license; this plugin does not
+See [docs/LICENSING.md](docs/LICENSING.md) for the third-party audit and the
+source of the official license text. Bludit itself is a separate project with its own license; this plugin does not
 alter or redistribute Bludit.
 
 ## Contributing
