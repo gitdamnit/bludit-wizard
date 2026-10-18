@@ -1,78 +1,50 @@
-# Bludit Plugin Repository — Submission Instructions
+# Bludit Plugin Directory Submission — v1.1.0
 
-Everything needed for the first official submission of **Bludit Wizard 1.0.5**
-is staged under `submission/`. Nothing has been pushed, published or submitted.
+**Status:** submitted as
+[bludit/plugins-repository#489](https://github.com/bludit/plugins-repository/pull/489).
+The pull request is **open**; the plugin is **not yet accepted or listed** in the
+official directory.
 
-> **Do not open a pull request until the owner approves.** This document is the
-> procedure, not an action taken.
+## Published release
 
-## Files produced
+- **Repository:** https://github.com/gitdamnit/bludit-wizard
+- **Tag / release:** https://github.com/gitdamnit/bludit-wizard/releases/tag/v1.1.0
+- **Download:** https://github.com/gitdamnit/bludit-wizard/releases/download/v1.1.0/bludit-wizard-1.1.0.zip
+- **SHA-256:** `51bfcb43c41412f30d9e68c7e99c54bc0a29213527ec9c32c53d92cc97632491`
+- **License:** GPL-3.0-only
+- **Version:** 1.1.0
+- **Price:** free (`price_usd: "0"`)
+
+The published asset was downloaded again after release and its checksum and
+archive contents were verified.
+
+## Submission files
 
 | Path | Purpose |
 |------|---------|
-| `dist/bludit-wizard-1.0.5.zip` | The plugin download (single top-level `wizard/` directory) |
-| `submission/items/bludit-wizard/metadata.json` | Repository **item** metadata (website format) |
-| `submission/items/bludit-wizard/screenshot.png` | 800×600 plugin screenshot (required) |
-| `submission/authors/evan-zellner.json` | Repository **author** record |
-| `submission/bludit-wizard-settings.png` | Supplementary settings screenshot (not required) |
+| `submission/authors/gitdamnit.json` | Author record (`authors/gitdamnit.json` upstream) |
+| `submission/items/bludit-wizard/metadata.json` | Plugin item metadata (`items/bludit-wizard/metadata.json`) |
+| `submission/items/bludit-wizard/screenshot.png` | 800×600 screenshot from the approved interface |
 
-Note there are **two different `metadata.json` files**:
-- `wizard/metadata.json` — read by Bludit itself (author, version, compatible).
-- `submission/items/bludit-wizard/metadata.json` — read by plugins.bludit.com.
+Both JSON files match the official templates' keys. The author file is named for
+the maintainer identity `gitdamnit`; there is no duplicate author record.
 
-## Before submitting — fill the placeholders
+## Verification performed before submission
 
-`submission/items/bludit-wizard/metadata.json` contains values the owner must
-confirm:
+- GitHub repository exists and is public; default branch `main`.
+- Tag `v1.1.0` exists; release is published (not draft, not prerelease).
+- Release asset `bludit-wizard-1.1.0.zip` downloads and matches the recorded
+  SHA-256.
+- Archive contains a single `wizard/` directory with `plugin.php`,
+  `metadata.json`, `languages/`, `js/`, `css/`, `lib/`, README, CHANGELOG,
+  LICENSE and `assets.json`.
+- `metadata.json` reports version 1.1.0 and license GPL-3.0-only.
+- Screenshot is 800×600 RGB and shows the current workspace with no credentials.
+- Download URL in the item metadata points at the verified GitHub release asset.
 
-| Field | Current value | Action |
-|-------|---------------|--------|
-| `download_url` | `https://ihopeitoffendsyou.com/downloads/bludit-wizard-1.0.5.zip` | Host the ZIP at a stable URL and update this |
-| `information_url` | `https://ihopeitoffendsyou.com/bludit-wizard` | Confirm or change |
-| `demo_url` | `""` | Optional |
-| `price_usd` | `0` (free) | Set a price if it should be paid |
-| `version` / `release_date` | `1.0.5` / `2026-10-15` | Confirm final label |
+## If the directory requests changes
 
-`submission/authors/evan-zellner.json` — `email` is empty; set a public contact
-address (the repository template allows an empty field, but a contact is
-recommended).
-
-## Procedure (for the owner, when approved)
-
-The repository is <https://github.com/bludit/plugins-repository>. Read its
-`README.md` first; it is the source of truth.
-
-1. **Fork** `bludit/plugins-repository` and clone your fork.
-2. Create the author file:
-   - copy `submission/authors/evan-zellner.json` to `authors/evan-zellner.json`
-     in the fork (filename = lowercase username without spaces).
-3. Create the item folder:
-   - copy `submission/items/bludit-wizard/` to `items/bludit-wizard/`
-     (folder name lowercase, no spaces), containing `metadata.json` and
-     `screenshot.png`.
-4. Verify JSON validity:
-   ```bash
-   python3 -m json.tool authors/evan-zellner.json >/dev/null
-   python3 -m json.tool items/bludit-wizard/metadata.json >/dev/null
-   ```
-5. Confirm the screenshot is exactly 800×600 and matches the plugin UI.
-6. Commit with a clear message and push to the fork.
-7. Open a pull request against `bludit/plugins-repository` describing the plugin
-   and linking the `download_url`.
-
-## Do not submit yet
-
-Blocking items are tracked in `reports/BLUDIT_SUBMISSION_CHECKLIST.md`. At
-minimum: host the download, confirm the author/URL values, and complete an
-operator pass on a disposable real host (the automated results are from isolated
-containers).
-
-## Verifying the ZIP before hosting
-
-```bash
-scripts/build-release.sh 1.0.5          # rebuild from wizard/
-scripts/verify-release-zip.sh               # extract, lint, install, smoke-test
-```
-
-`verify-release-zip.sh` starts a throwaway Bludit container, installs the
-packaged plugin, and checks the API responds (401 without a key, 200 with one).
+Update the fork branch `gitdamnit:add-bludit-wizard-v1.1.0`, re-validate the JSON
+against the current upstream templates, and report the new PR state. Do not
+describe the submission as accepted until the listing appears in the official
+directory.

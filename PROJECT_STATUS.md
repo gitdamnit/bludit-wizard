@@ -9,14 +9,15 @@ In Progress
 <!-- Machine-maintained by `prodoc update`. Do not hand-edit. -->
 <!-- prodoc:observed:start -->
 <!-- Observed from Git metadata only, by `prodoc update`. This block is not evidence that the implementation or its tests are correct; record that under `## Verification Evidence`. -->
-- **Observed branch:** feature/1.1.0-rc1
-- **Observed commit:** 39b87342023dde9355b8807bca71645afef51c16
+- **Observed branch:** public-main
+- **Observed commit:** 88023947ecdea297f94b3deb9756a75c1d0105f2
 - **Observed working tree:** dirty
-- **Observed at:** 2026-10-18T02:10:37Z
+- **Observed at:** 2026-10-18T03:25:27Z
 <!-- prodoc:observed:end -->
 
 ## Verification Evidence
 
+- **Verification:** commit `5849325` — stable v1.1.0 gate: 441/441 HTTP/API/security/task checks, 33/33 Playwright on Community and Pro, 98/98 network-policy assertions, installed-ZIP verification on Community + Pro (3/3 browser smoke); artifact SHA-256 `51bfcb43c41412f30d9e68c7e99c54bc0a29213527ec9c32c53d92cc97632491` — evidence `reports/raw/results-1.1.0.json`, `reports/raw/playwright-1.1.0.json`, `reports/raw/playwright-1.1.0-pro.json`, `dist/bludit-wizard-1.1.0.zip`
 - **Verification:** commit `71f2c2c` — RC2 runtime repair: 440/440 HTTP/API/security/task checks, 33/33 Playwright on Community and Pro, 98/98 network-policy assertions — evidence `reports/raw/results-1.1.0-rc2.json`, `reports/raw/playwright-1.1.0-rc2.json`, `reports/raw/playwright-1.1.0-rc2-pro.json`
 - **Maintainer acceptance (reported 2026-10-18, not re-run by the release operator):** all twelve tasks, page selection, contextual actions, settings, OpenRouter and LLM Gateway model discovery/testing, free-model filtering and provider testing passed live testing on a disposable Hostinger Bludit installation.
 - **Verification:** commit `171c997` — RC1 was rejected after the deployment regression (form dispatch removed; stale client assets). Historical evidence preserved: `reports/raw/results-1.1.0-rc1.json`, `docs/HOSTINGER_ACCEPTANCE_1.1.0_RC1.md`.
@@ -28,8 +29,8 @@ In Progress
 - [Tested] Public README lists all twelve tasks in four categories, provider compatibility, safety and troubleshooting — `README.md`, `wizard/README.md`
 - [Tested] Stable ZIP built and verified (manifest, served JS hash, native/AJAX dispatch, Community + Pro, installed-ZIP browser smoke) — `dist/bludit-wizard-1.1.0.zip`, `scripts/verify-release-zip.sh`
 - [Tested] Release notes, installation guide, changelog and submission metadata updated for 1.1.0 — `docs/RELEASE_NOTES_1.1.0.md`, `wizard/CHANGELOG.md`, `submission/items/bludit-wizard/metadata.json`
-- [In Progress] GitHub repository, tag `v1.1.0` and release publication — see Release Status
-- [Planned] Official Bludit plugins-repository PR — metadata staged in `submission/`
+- [Published] GitHub repository, tag `v1.1.0` and release with the installation ZIP — `https://github.com/gitdamnit/bludit-wizard/releases/tag/v1.1.0`
+- [Implemented] Official Bludit plugins-repository PR opened — `https://github.com/bludit/plugins-repository/pull/489` (acceptance pending)
 - [Removed] Wizard page-deletion capability remains absent — `tests/runner.mjs`
 
 ## Tests
@@ -59,34 +60,38 @@ In Progress
 
 ## Blockers
 
-- GitHub and Bludit directory publication require the authenticated release
-  operator; see Release Status for the current state.
-- Bludit directory acceptance is external; a submitted PR is not an accepted
-  listing.
+- Bludit directory acceptance is external. PR #489 is submitted but **not
+  accepted**; the plugin must not be described as officially listed until the
+  listing is visible in the directory.
 
 ## Next Actions
 
-1. Push the stable source to https://github.com/gitdamnit/bludit-wizard.
-2. Create and push tag `v1.1.0`; publish the GitHub release with the stable ZIP
-   and SHA-256.
-3. Open the Bludit plugins-repository PR with the staged author/item metadata and
-   screenshot.
-4. Update the download URL and submission status once the release asset is
-   verified.
+1. Monitor Bludit PR #489 and respond to maintainer feedback.
+2. If the directory requires metadata changes, update the fork branch and the
+   staged files under `submission/`.
+3. Do not publish a new release or change the license without owner approval.
 
 ## Release Status
 
-**1.1.0 stable prepared.** Artifact `dist/bludit-wizard-1.1.0.zip` (16 files,
-single top-level `wizard/`, including `assets.json`), 63,988 bytes, SHA-256
-`51bfcb43c41412f30d9e68c7e99c54bc0a29213527ec9c32c53d92cc97632491`.
-License: GPL-3.0-only. The RC2 archive
-(`dist/bludit-wizard-1.1.0-rc2.zip`) and all prior packages are preserved. RC1 is
-preserved as historical evidence and must not be deployed. GitHub tag/release and
-directory PR status are recorded after publication.
+**1.1.0 stable published on GitHub; Bludit directory PR submitted.**
+
+- **Artifact:** `dist/bludit-wizard-1.1.0.zip` — 16 files, 63,988 bytes,
+  SHA-256 `51bfcb43c41412f30d9e68c7e99c54bc0a29213527ec9c32c53d92cc97632491`
+- **Repository:** https://github.com/gitdamnit/bludit-wizard (default branch
+  `main`, release commit `8802394`)
+- **Tag:** https://github.com/gitdamnit/bludit-wizard/releases/tag/v1.1.0
+- **Release:** https://github.com/gitdamnit/bludit-wizard/releases/tag/v1.1.0
+- **Download:** https://github.com/gitdamnit/bludit-wizard/releases/download/v1.1.0/bludit-wizard-1.1.0.zip
+  (downloaded and re-hashed after publication; matches)
+- **Bludit directory:** PR https://github.com/bludit/plugins-repository/pull/489
+  — OPEN, not accepted
+- **License:** GPL-3.0-only
+- The RC2 archive (`dist/bludit-wizard-1.1.0-rc2.zip`) and all prior packages are
+  preserved. RC1 remains historical evidence and must not be deployed.
 
 ## Project History and Detail (retained)
 
-_Last updated: 2026-10-17_
+_Last updated: 2026-10-18_
 
 ### Where we are
 
@@ -98,13 +103,13 @@ _Last updated: 2026-10-17_
 | Feature branch | `feature/provider-validation-model-discovery` — preserved |
 | RC1 branch | `release/1.0.5-rc1` (`2407c73`) — preserved |
 | Stable branch | `release/1.0.5` — preserved (`dist/bludit-wizard-1.0.5.zip`) |
-| **Current branch** | **`feature/1.1.0-rc1`** |
-| Product | **Bludit Wizard 1.1.0 RC2 (regression-repair release candidate)** |
-| Release ZIP | `dist/bludit-wizard-1.1.0-rc2.zip` (+ `.sha256`) |
+| **Current branch** | **`public-main` / `feature/1.1.0-rc1`** |
+| Product | **Bludit Wizard 1.1.0 (stable public release)** |
+| Release ZIP | `dist/bludit-wizard-1.1.0.zip` (+ `.sha256`) |
 | Submission assets | `submission/` (author, item metadata, screenshot, instructions) |
 | Public docs | `wizard/README.md`, `wizard/CHANGELOG.md`, `docs/INSTALLATION.md`, `docs/RELEASE_NOTES_1.0.5.md`, `docs/GITHUB_RELEASE.md` |
 | Project history | `docs/history/CUSTOM_GPT_LEGACY.md` + preserved OpenAPI schemas and GPT preview |
-| Overall result | **All RC2 tests green; ZIP verified incl. admin UI on Community + Pro; awaiting owner authorization** |
+| Overall result | **Published on GitHub; Bludit directory PR #489 open (acceptance pending)** |
 
 ### Verification results (1.1.0-rc2 regression repair)
 

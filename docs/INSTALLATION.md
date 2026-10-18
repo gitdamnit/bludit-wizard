@@ -1,6 +1,6 @@
 # Installing Bludit Wizard
 
-This guide covers installing and configuring **Bludit Wizard 1.0.5** on a
+This guide covers installing and configuring **Bludit Wizard 1.1.0** on a
 Bludit 3.22.x site (Community or Pro).
 
 ## 1. Requirements
@@ -17,7 +17,8 @@ host blocks outbound HTTPS, the AI features will report a connection error.
 
 ## 2. Install the files
 
-1. Download `bludit-wizard-1.0.5.zip`.
+1. Download `bludit-wizard-1.1.0.zip` from the
+   [v1.1.0 release](https://github.com/gitdamnit/bludit-wizard/releases/tag/v1.1.0).
 2. Unzip it. The archive contains a single top-level directory, `wizard/`.
 3. Copy that directory into your Bludit plugin folder so the path is:
 
@@ -27,7 +28,7 @@ host blocks outbound HTTPS, the AI features will report a connection error.
 
    You can use SFTP, your hosting File Manager, or SSH:
    ```bash
-   unzip bludit-wizard-1.0.5.zip -d /path/to/bludit/bl-plugins/
+   unzip bludit-wizard-1.1.0.zip -d /path/to/bludit/bl-plugins/
    ```
 
 4. Ensure the files are readable by the web server (directories `755`, files
