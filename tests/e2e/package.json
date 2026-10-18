@@ -1,0 +1,12 @@
+{
+  "name": "bludit-wizard-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Playwright UI tests for the Bludit Wizard plugin",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}

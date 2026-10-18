@@ -1,0 +1,448 @@
+Last edited Oct 13
+Share
+Update
+Edit actions
+Let your GPT retrieve information or take actions outside of ChatGPT.
+Learn more.
+Authentication
+API Key
+Schema
+Import from URL
+openapi: 3.1.0
+
+info:
+  title: Bludit Wizard API
+  description: Manage Bludit content on ihopeitoffendsyou.com through the Bludit Wizard plugin.
+  version: 1.0.0
+
+servers:
+  - url: https://ihopeitoffendsyou.com/api/wizard
+
+security:
+  - bearerAuth: []
+
+paths:
+  /site:
+    get:
+      operationId: getSite
+      summary: Get site information
+      description: Get basic information about the Bludit site.
+      responses:
+        "200":
+          description: Site information returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /pages:
+    get:
+      operationId: listPages
+      summary: List pages
+      description: List pages and posts on the Bludit site.
+      responses:
+        "200":
+          description: Pages returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageListResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      operationId: createPage
+      summary: Create a new Bludit page or post
+      description: Create new Bludit content after the user explicitly requests creation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePageInput"
+      responses:
+        "200":
+          description: Page created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "201":
+          description: Page created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "400":
+          description: Invalid page data or Bludit could not create the page.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /pages/{key}:
+    get:
+      operationId: getPage
+      summary: Get a Bludit page or post
+      description: Get an existing Bludit page by its unique page key.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The unique Bludit page key.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Page not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    put:
+      operationId: updatePage
+      summary: Update a Bludit page or post
+      description: >
+        Update an existing Bludit page by its unique page key.
+        The assistant must call getPage first to inspect the existing content,
+        explain the proposed changes to the user, obtain explicit confirmation,
+        and then send confirm=true.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The unique Bludit page key.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePageInput"
+      responses:
+        "200":
+          description: Page updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "400":
+          description: Invalid page data or confirm was not true.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Page not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: GPTActionAPIKey
+
+  schemas:
+    SiteResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        site:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            url:
+              type: string
+            version:
+              type: string
+            totalPages:
+              type: integer
+          additionalProperties: true
+      additionalProperties: true
+
+    CreatePageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: Page title.
+        content:
+          type: string
+          description: Full page content.
+        description:
+          type: string
+          description: Meta description.
+        type:
+          type: string
+          description: Bludit page type.
+          enum:
+            - published
+            - draft
+            - static
+            - sticky
+            - scheduled
+          default: draft
+        slug:
+          type: string
+          description: Unique URL slug for the page.
+        tags:
+          type: string
+          description: Comma-separated tags.
+        category:
+          type: string
+          description: Existing Bludit category key. Omit if no category is needed.
+        confirm:
+          type: boolean
+          description: Confirms that the user explicitly requested creation.
+          enum:
+            - true
+      required:
+        - title
+        - content
+        - type
+        - slug
+        - confirm
+
+    UpdatePageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: Replacement page title.
+        content:
+          type: string
+          description: Replacement full page content.
+        description:
+          type: string
+          description: Replacement meta description.
+        type:
+          type: string
+          description: Replacement Bludit page type.
+          enum:
+            - published
+            - draft
+            - static
+            - sticky
+            - scheduled
+        slug:
+          type: string
+          description: Replacement URL slug.
+        tags:
+          type: string
+          description: Replacement comma-separated tags.
+        category:
+          type: string
+          description: Existing Bludit category key.
+        confirm:
+          type: boolean
+          description: >
+            Must be true after getPage has been called,
+            the existing content has been reviewed,
+            the proposed changes have been explained,
+            and the user has explicitly approved the update.
+          enum:
+            - true
+      required:
+        - confirm
+
+    Page:
+      type: object
+      properties:
+        key:
+          type: string
+        uuid:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        contentRaw:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        slug:
+          type: string
+        tags:
+          type: object
+          additionalProperties: true
+        category:
+          type: string
+        permalink:
+          type: string
+        username:
+          type: string
+      additionalProperties: true
+
+    PageResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        page:
+          $ref: "#/components/schemas/Page"
+        data:
+          $ref: "#/components/schemas/Page"
+        key:
+          type: string
+      additionalProperties: true
+
+    PageListResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        pages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Page"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Page"
+        total:
+          type: integer
+      additionalProperties: true
+
+    ErrorResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+      additionalProperties: true
+Format
+Available actions
+Name	Method	Path	
+getSite	get	/site	
+Test
+listPages	get	/pages	
+Test
+createPage	post	/pages	
+Test
+getPage	get	/pages/{key}	
+Test
+updatePage	put	/pages/{key}	
+Test
+Privacy policy
+Preview
+Model5.6
+Open the draft “Hermes gets a SOUL(.md)” and summarize what’s currently there. Do not change anything.
+
+The draft “Hermes gets a SOUL(.md)” is currently a long-form article/tutorial plus a ready-to-use SOUL.md prompt. I did not change anything.
+What’s there
+
+The opening explains the motivation: CLI coding agents often lack the convenient “personality/persona” settings found in consumer AI apps, so a global SOUL.md can serve as a persistent personality layer. It contrasts this with a project-specific AGENT.md and suggests placing SOUL.md in ~/.hermes/.
+
+The introduction is deliberately irreverent and argues that LLMs can be excessively sycophantic, over-agreeable, flattering, and prone to confidently promising capabilities they don't actually have. It uses examples involving ChatGPT, emotional dependency/grandiosity claims, medical reliance, and the author's own experience with earlier models. The section ends with a GIGO point and frames the prompt as roughly “iteration 200+” of lessons learned.
+
+There is also a partially unfinished sentence near the transition into the prompt:
+
+    “Not sure if this would work for you? Change Hermes to whatever you'd like - throw it in your AI and prompt it to implement i”
+
+Then the actual SOUL.md begins.
+The SOUL itself
+
+Its core identity is Hermes, described as the user's persistent AI collaborator, technical partner, researcher, critic, and independent-minded technical counterpart.
+
+The governing philosophy is essentially:
+
+truth > agreement, evidence > intuition, correctness > politeness, useful action > impressive prose.
+
+Major sections include:
+
+    Identity — establishes Hermes as skeptical, intelligent, independent, and willing to disagree.
+
+    Relationship With $USER — treats the user as a capable technical collaborator, discourages flattery and unnecessary simplification, and emphasizes continuity/context.
+
+    Epistemic Discipline — explicitly distinguishes facts, evidence-backed conclusions, inference, speculation, and unknowns; requires uncertainty to remain visible.
+
+    Reasoning — stresses first principles, causal analysis, counterexamples, alternative hypotheses, and updating beliefs when evidence changes.
+
+    Intellectual Honesty — prohibits fabricated citations, commands, APIs, tool output, test results, or claims of having inspected something that wasn't inspected.
+
+    Communication Style — favors direct, information-dense answers, with structured formats for troubleshooting, decisions, research, and technical instructions.
+
+    Voice — informal, sharp, human, occasionally sarcastic/profane, while explicitly banning canned assistant language and fake enthusiasm.
+
+    Disagreement — says disagreement should be evidence-based rather than performative contrarianism.
+
+    Ambiguity — says to make reasonable assumptions when possible and only ask clarifying questions when they materially matter.
+
+    Technical Work — emphasizes diagnosis before changes, literal reading of errors, small/blast-radius-limited fixes, preservation of data/configuration, and avoiding ritualistic “reinstall everything” troubleshooting.
+
+    Research — distinguishes marketing, documentation, independent reporting, user reports, controlled evidence, and speculation; also emphasizes incentives and who bears risk.
+
+    Safety and Serious Matters — calls for less sarcasm and more precision around health, legal, financial, dangerous-equipment, and other high-consequence topics.
+
+    Initiative — encourages spotting obvious failures and simpler solutions, but explicitly maintaining scope discipline.
+
+    Efficiency — prioritizes the shortest path to a working answer and protecting the user's attention.
+
+    Defaults — reinforces evidence-based agreement, labeled speculation, verification of current information, and investigation instead of increasingly elaborate guessing.
+
+    Avoid — a long blacklist covering sycophancy, corporate voice, filler, fake certainty, generic troubleshooting, unnecessary questions, false balance, etc.
+
+    Core Principle — closes by defining Hermes as the collaborator you'd choose when you want the answer correct rather than comforting.
+
+Overall, the draft is structurally two pieces in one: a personal/argumentative introduction explaining why the prompt exists, followed by a fairly comprehensive reusable SOUL.md specification defining exactly how Hermes should behave.

@@ -1,0 +1,411 @@
+openapi: 3.1.0
+info:
+  title: Bludit Wizard API
+  description: Manage Bludit content through the Bludit Wizard plugin.
+  version: 1.0.0
+servers:
+  - url: https://lightskyblue-fish-696911.hostingersite.com/api/wizard
+security:
+  - bearerAuth: []
+paths:
+  /site:
+    get:
+      operationId: getSite
+      summary: Get site information
+      description: Get basic information about the Bludit site.
+      responses:
+        "200":
+          description: Site information returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /pages:
+    get:
+      operationId: listPages
+      summary: List pages
+      description: List pages on the Bludit site.
+      responses:
+        "200":
+          description: Pages returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageListResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createPage
+      summary: Create a page
+      description: Create a new Bludit page after the user requests creation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePageInput"
+      responses:
+        "200":
+          description: Page created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "201":
+          description: Page created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "400":
+          description: Invalid page data or Bludit could not create the page.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /pages/{key}:
+    get:
+      operationId: getPage
+      summary: Get a page
+      description: Get a Bludit page by its page key.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The unique Bludit page key.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Page not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updatePage
+      summary: Update a page
+      description: Update a Bludit page by its page key. Call getPage first to review the existing page. Send confirm=true in
+        the JSON request body.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The unique Bludit page key.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePageInput"
+      responses:
+        "200":
+          description: Page updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageResponse"
+        "400":
+          description: Invalid page data or confirm was not true.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Page not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deletePage
+      summary: Delete a page
+      description: Permanently delete a Bludit page by its page key. Call getPage first, obtain explicit user authorization,
+        and send confirm=true in the JSON request body.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The unique Bludit page key.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeletePageInput"
+      responses:
+        "200":
+          description: Page deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResponse"
+        "204":
+          description: Page deleted successfully with no response body.
+        "400":
+          description: The request was invalid or confirm was not true.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Invalid or missing GPT Action API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Page not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: GPTActionAPIKey
+  schemas:
+    SiteResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request succeeded.
+        error:
+          type: string
+          description: Error message when the request fails.
+        site:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            url:
+              type: string
+            version:
+              type: string
+            totalPages:
+              type: integer
+          additionalProperties: true
+      additionalProperties: true
+    CreatePageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: Page title.
+        content:
+          type: string
+          description: Full page content.
+        description:
+          type: string
+          description: Page meta description.
+        type:
+          type: string
+          description: Bludit page type.
+          enum:
+            - published
+            - draft
+            - static
+            - sticky
+            - scheduled
+          default: draft
+        slug:
+          type: string
+          description: A unique URL slug for the new page.
+        tags:
+          type: string
+          description: Comma-separated page tags.
+        category:
+          type: string
+          description: Existing Bludit category key. Omit if no category is needed.
+        confirm:
+          type: boolean
+          description: Confirms that the user requested creation of this page.
+          enum:
+            - true
+      required:
+        - title
+        - content
+        - type
+        - slug
+        - confirm
+    UpdatePageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: Replacement page title.
+        content:
+          type: string
+          description: Replacement full page content.
+        description:
+          type: string
+          description: Replacement page meta description.
+        type:
+          type: string
+          description: Replacement Bludit page type.
+          enum:
+            - published
+            - draft
+            - static
+            - sticky
+            - scheduled
+        slug:
+          type: string
+          description: Replacement URL slug.
+        tags:
+          type: string
+          description: Replacement comma-separated page tags.
+        category:
+          type: string
+          description: Existing Bludit category key.
+        confirm:
+          type: boolean
+          description: Must be true after getPage has been called and the existing page and proposed changes have been reviewed.
+          enum:
+            - true
+      required:
+        - confirm
+    DeletePageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        confirm:
+          type: boolean
+          description: Must be true after getPage has been called and the user explicitly authorizes permanently deleting the page.
+          enum:
+            - true
+      required:
+        - confirm
+    Page:
+      type: object
+      properties:
+        key:
+          type: string
+        uuid:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        contentRaw:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        slug:
+          type: string
+        tags:
+          type: object
+          properties: {}
+          additionalProperties: true
+        category:
+          type: string
+        permalink:
+          type: string
+        username:
+          type: string
+      additionalProperties: true
+    PageResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        page:
+          $ref: "#/components/schemas/Page"
+        data:
+          $ref: "#/components/schemas/Page"
+        key:
+          type: string
+      additionalProperties: true
+    PageListResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        pages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Page"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Page"
+        total:
+          type: integer
+      additionalProperties: true
+    DeleteResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        key:
+          type: string
+      additionalProperties: true
+    ErrorResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+      additionalProperties: true

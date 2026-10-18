@@ -1,0 +1,11 @@
+.git
+.gitignore
+reports
+docs
+testenv/.state
+node_modules
+**/node_modules
+*.zip
+*.log
+test-results
+playwright-report

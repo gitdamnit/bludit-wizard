@@ -1,0 +1,10 @@
+{
+    "author": "Evan Zellner",
+    "email": "",
+    "website": "https://ihopeitoffendsyou.com",
+    "version": "1.1.0",
+    "releaseDate": "2026-10-18",
+    "license": "GPL-3.0-only",
+    "compatible": "3.22",
+    "notes": "Bludit Wizard 1.1.0. Twelve guided AI-assisted writing, editing, SEO and analysis tasks in a full-width workspace, with task-specific page selection and contextual actions. Every content change is reviewed before it is applied; audits are read-only and page deletion is not available. Supports configurable OpenAI-compatible providers with model discovery and testing. Licensed GPL-3.0-only."
+}

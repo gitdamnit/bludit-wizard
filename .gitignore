@@ -1,0 +1,23 @@
+# Upstream Bludit cores (vendor; fetched by testenv/fetch-upstream.sh)
+testenv/upstream/bludit-community/
+testenv/upstream/bludit-pro/
+
+# Test runtime / artifacts
+testenv/.state/
+reports/raw/
+test-results/
+playwright-report/
+node_modules/
+*.log
+
+# Local build output
+dist/
+.DS_Store
+
+# Release archives and historical bundles are kept locally, not tracked
+/*.zip
+/bludit-wizard-test/
+/bludit-wizard-test.zip
+/follow-bludit/
+/follow-bludit.zip
+/BLUDIT_WIZARD_*_REVIEW.md

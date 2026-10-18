@@ -1,0 +1,121 @@
+/* Bludit Wizard — Copyright (C) 2026 Evan Zellner. Licensed under GPL-3.0-only; see LICENSE. */
+
+.bw-shell { max-width: 1380px; margin: 0 auto; padding: 20px 0 40px; }
+.bw-hero { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding:28px 30px; margin-bottom:20px; border-radius:18px; background:linear-gradient(135deg,#111827,#1f2937); color:#fff; box-shadow:0 12px 30px rgba(0,0,0,.12); }
+.bw-hero h1 { margin:4px 0 8px; font-size:32px; font-weight:700; color:#F8FAFC; }
+.bw-hero p { margin:0; max-width:760px; opacity:.85; font-size:15px; color:#fff; }
+.bw-kicker { font-size:11px; letter-spacing:.18em; font-weight:700; opacity:.7; color:#fff; }
+.bw-stat { min-width:130px; text-align:center; padding:14px 18px; border-radius:14px; background:rgba(255,255,255,.08); color:#fff; }
+.bw-stat strong { display:block; font-size:30px; line-height:1; }
+.bw-stat span { font-size:12px; opacity:.7; }
+.bw-grid { display:grid; grid-template-columns:minmax(0,2fr) minmax(320px,1fr); gap:20px; }
+.bw-card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 8px 22px rgba(0,0,0,.05); padding:22px; }
+.bw-main { min-height:600px; }
+.bw-side { display:flex; flex-direction:column; gap:20px; }
+.bw-card h3 { margin-top:0; }
+.bw-result { margin-top:22px; border:1px solid #e5e7eb; border-radius:14px; overflow:hidden; background:#f9fafb; }
+.bw-result-head { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid #e5e7eb; background:#fff; }
+.bw-result pre { margin:0; padding:18px; min-height:80px; max-height:420px; overflow:auto; white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; color:#111827; }
+.bw-apply { padding:18px; border-top:1px solid #e5e7eb; background:#fff; }
+.bw-apply-grid { display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-bottom:12px; }
+.bw-apply-actions { display:flex; gap:10px; margin-top:14px; }
+.bw-facts { margin:0; }
+.bw-facts dt { float:left; clear:left; width:100px; font-weight:600; color:#6b7280; }
+.bw-facts dd { margin-left:110px; margin-bottom:10px; overflow-wrap:anywhere; }
+.bw-safety { background:#f8fafc; }
+.bw-safety p { margin-bottom:0; color:#4b5563; }
+.bw-shell [hidden] { display: none !important; }
+#bw-run[disabled], #bw-save[disabled] { opacity:.65; cursor:wait; }
+@media (max-width: 1000px) { .bw-grid { grid-template-columns:1fr; } }
+@media (max-width: 600px) { .bw-hero { flex-direction:column; align-items:flex-start; } .bw-apply-grid { grid-template-columns:1fr; } }
+
+/* --- Provider settings: model discovery combobox ---------------------- */
+.bw-model-group { position: relative; }
+.bw-model-row { display:flex; gap:8px; align-items:stretch; }
+.bw-model-row #wizard-model { flex:1 1 auto; }
+.bw-model-row .btn { white-space:nowrap; }
+.bw-model-menu { position:absolute; z-index:1050; left:0; right:0; max-height:320px; overflow-y:auto; margin-top:2px; background:#fff; border:1px solid #d1d5db; border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.14); }
+.bw-model-item { display:flex; align-items:center; gap:8px; padding:7px 12px; cursor:pointer; border-bottom:1px solid #f3f4f6; font-size:13px; }
+.bw-model-item:last-child { border-bottom:none; }
+.bw-model-item:hover { background:#f1f5f9; }
+.bw-model-id { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:#111827; }
+.bw-model-name { color:#6b7280; font-size:12px; }
+.bw-badge { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding:1px 6px; border-radius:99px; }
+.bw-badge-free { background:#dcfce7; color:#166534; }
+.bw-badge-tools { background:#e0e7ff; color:#3730a3; }
+.bw-badge-ctx { background:#f3f4f6; color:#4b5563; }
+.bw-model-empty { padding:10px 12px; color:#6b7280; font-size:12px; }
+.bw-model-filters { margin-top:8px; display:flex; gap:16px; }
+.bw-check { font-weight:500; color:#374151; font-size:13px; margin:0; }
+.bw-model-status { margin-top:8px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; background:#f9fafb; font-size:12px; }
+.bw-status-line { display:flex; gap:10px; padding:1px 0; }
+.bw-status-label { min-width:120px; font-weight:600; color:#6b7280; }
+.bw-status-value { color:#111827; overflow-wrap:anywhere; }
+.bw-status-ok .bw-status-value { color:#166534; }
+.bw-status-bad .bw-status-value { color:#991b1b; }
+.bw-status-warn .bw-status-value { color:#92400e; }
+
+/* --- Settings safety toggles ----------------------------------------- */
+.bw-safety-toggles { padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; background:#f9fafb; }
+.bw-check-block { display:block; margin-bottom:4px; }
+.bw-check-block input[type="checkbox"] { margin-right:6px; }
+
+/* --- v1.0.6 RC2: original/proposed review --------------------------- */
+.bw-subtitle { margin:0 0 6px; font-size:16px; font-weight:600; color:#F8FAFC; opacity:1; }
+.bw-lede { margin:0; }
+.bw-review { margin-top:22px; border:1px solid #e5e7eb; border-radius:14px; background:#fff; padding:18px; }
+.bw-review-title { margin:0 0 14px; font-size:18px; }
+.bw-review-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; align-items:start; }
+.bw-review-col { min-width:0; border:1px solid #e5e7eb; border-radius:12px; padding:14px; background:#f9fafb; }
+.bw-review-col h4 { margin:0 0 10px; font-size:15px; text-transform:uppercase; letter-spacing:.06em; color:#6b7280; }
+.bw-original { background:#f8fafc; }
+.bw-review-facts { margin:0 0 12px; }
+.bw-review-facts dt { float:left; clear:left; width:92px; font-weight:600; color:#6b7280; font-size:12px; }
+.bw-review-facts dd { margin:0 0 6px 100px; overflow-wrap:anywhere; font-size:13px; }
+.bw-review-content { clear:both; }
+.bw-review-content pre { margin:0; padding:12px; max-height:420px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:#fff; border:1px solid #e5e7eb; border-radius:8px; font-size:13px; }
+.bw-proposed-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-bottom:10px; }
+.bw-proposed-grid label, .bw-proposed .bw-review-content + label, .bw-proposed > label { font-weight:600; font-size:12px; color:#6b7280; }
+.bw-proposed > label { display:block; margin:8px 0 4px; }
+.bw-technical { margin-top:12px; }
+.bw-technical summary { cursor:pointer; color:#6b7280; font-size:12px; }
+.bw-technical pre { margin:8px 0 0; padding:10px; max-height:240px; overflow:auto; background:#0f172a; color:#e2e8f0; border-radius:8px; font-size:12px; }
+@media (max-width: 900px) {
+  .bw-review-grid { grid-template-columns:1fr; }
+  .bw-proposed-grid { grid-template-columns:1fr; }
+}
+
+/* --- v1.1.0 RC1: full-width content workspace ---------------------- */
+.bw-workspace { width:100%; max-width:none; padding:22px; }
+.bw-task-select { max-width:none; }
+.bw-guidance { margin:-4px 0 16px; padding:10px 12px; border-left:3px solid #2563eb; background:#f1f5f9; color:#334155; border-radius:0 8px 8px 0; font-size:13px; }
+.bw-admin-notice, .bw-noscript { margin-bottom:16px; }
+.bw-init-error { margin:0; }
+.bw-label-spaced { display:block; margin-top:10px; }
+.bw-note { margin:10px 0 0; color:#6b7280; font-size:12px; }
+#bw-run { min-width:180px; }
+.bw-result, .bw-review, .bw-audit { margin-top:22px; }
+.bw-result-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
+.bw-markdown { border:1px solid #e5e7eb; border-radius:12px; background:#fff; padding:16px 18px; min-height:60px; max-height:70vh; overflow:auto; overflow-wrap:anywhere; }
+.bw-markdown:focus { outline:2px solid #2563eb; outline-offset:2px; }
+.bw-markdown h4 { margin:16px 0 6px; font-size:15px; }
+.bw-markdown h4:first-child { margin-top:0; }
+.bw-markdown p { margin:0 0 10px; line-height:1.6; }
+.bw-markdown ul, .bw-markdown ol { margin:0 0 10px 22px; }
+.bw-markdown li { margin:0 0 4px; line-height:1.55; }
+.bw-markdown pre { margin:0 0 10px; padding:12px; background:#0f172a; color:#e2e8f0; border-radius:8px; overflow:auto; }
+.bw-markdown code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; }
+.bw-error { color:#991b1b; font-weight:600; }
+.bw-audit h3, .bw-review-title { margin:0 0 12px; font-size:18px; }
+.bw-audit h3:focus, .bw-review-title:focus, .bw-markdown:focus { outline:2px solid #2563eb; outline-offset:2px; }
+.bw-link-list { display:grid; gap:10px; }
+.bw-link-item { border:1px solid #e5e7eb; border-radius:10px; padding:12px 14px; background:#f9fafb; }
+.bw-link-invalid { border-color:#fecaca; background:#fef2f2; }
+.bw-link-source { margin:0 0 4px; font-weight:600; overflow-wrap:anywhere; }
+.bw-link-target { margin:0 0 4px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:#334155; overflow-wrap:anywhere; }
+.bw-link-reason { margin:0; color:#475569; font-size:13px; }
+.bw-technical summary { cursor:pointer; color:#6b7280; font-size:12px; }
+.bw-review-grid { align-items:stretch; }
+.bw-review-col { display:flex; flex-direction:column; }
+.bw-review-content { flex:1; }
+.bw-original pre, .bw-review-content pre { max-height:60vh; }
