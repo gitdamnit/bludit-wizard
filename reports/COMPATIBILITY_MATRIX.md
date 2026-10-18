@@ -163,3 +163,14 @@ address simulates DNS rebinding.
 | Safe Markdown | injected HTML inert | community | ✅ | Playwright |
 | Responsive / focus | 390 px stack, no overflow, focus move | community | ✅ | Playwright |
 | RC1 ZIP install | fresh Community + Pro | containers | ✅ | lint + install + API |
+
+### Released in 1.1.0 — stable public release
+
+| Component | Configuration | Environment | Result | What ran |
+|-----------|---------------|-------------|:------:|----------|
+| Twelve tasks and workspace | accepted RC2 runtime | Community 3.22.0, Pro 3.22.0 | ✅ | 441 HTTP checks, 33 Playwright per edition |
+| GPL-3.0-only licensing | LICENSE + metadata | source + ZIP | ✅ | static license/text checks |
+| Asset versioning | `?v=1.1.0` | Community, Pro | ✅ | rendered-HTML, Playwright |
+| Installed stable ZIP | `dist/bludit-wizard-1.1.0.zip` | fresh Community + Pro | ✅ | manifest, admin UI, native/AJAX dispatch, 3/3 browser smoke |
+| GitHub release | tag `v1.1.0` | github.com/gitdamnit/bludit-wizard | ✅ | source, tag, release, asset download and SHA-256 |
+| Bludit directory | PR #489 | bludit/plugins-repository | ⬜ | submitted; acceptance pending |
