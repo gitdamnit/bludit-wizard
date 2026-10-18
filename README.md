@@ -107,17 +107,25 @@ The plugin has no Composer dependencies and no external runtime service.
 1. Download `bludit-wizard-1.1.0.zip` from the
    [latest release](https://github.com/gitdamnit/bludit-wizard/releases/latest).
 2. Extract the archive. It contains a single `wizard/` directory.
-3. Upload that directory to `bl-plugins/` so the path is
-   `bl-plugins/wizard/plugin.php`.
-4. In Bludit, open **Settings → Plugins** and activate **Bludit Wizard**.
-5. Open **Settings → Plugins → Bludit Wizard** to configure the provider.
-6. Choose a provider preset or enter an OpenAI-compatible **Base URL**.
-7. Enter the model id, or use **Refresh Models** to retrieve the provider's
-   catalog and select one.
-8. Enter the provider **LLM API key** and save.
-9. Use **Test Model** to confirm the endpoint, authentication and inference.
-10. Open **Wizard** in the admin sidebar, choose a task, select a page when
-    required, and provide your instructions.
+3. Upload the `wizard/` directory to your Bludit installation's
+   `bl-plugins/` folder so the path is `bl-plugins/wizard/plugin.php`.
+4. In Bludit Admin, navigate to **Settings → Plugins** and activate
+   **Bludit Wizard**.
+5. Open **Bludit Wizard's settings** to configure your AI provider.
+6. Select a **Provider preset** to automatically populate the **Base URL**.
+   For a custom OpenAI-compatible provider, enter the Base URL manually.
+7. Enter your provider's **LLM API key**.
+8. Click **Refresh Models**, then select your preferred model from the
+   available results. Use **Free models only** or **Tool support only**
+   to filter the catalog when supported.
+9. Click **Test Model** to verify the selected model, then click **Save**
+   to save your configuration.
+10. Open **Wizard** from the Bludit admin sidebar, choose a task,
+    select an existing page when required, and enter your instructions.
+
+**Note:** You don't need to enter a Model ID manually when model discovery
+is working. Manual entry remains available if discovery is unavailable
+or your preferred model isn't listed.
 
 ### Upgrading
 
